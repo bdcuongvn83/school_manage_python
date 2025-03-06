@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Registration</title>
+  </head>
+  <body>
+    <h2>Register Employee</h2>
+    <form method="POST">
+      <label for="userid">userid:</label>
+      <input type="text" id="userid" name="userid" required /><br /><br />
+
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required /><br /><br />
+
+      <label for="email">email:</label>
+      <input type="text" id="email" name="email" required /><br /><br />
+
+      <label for="password">password:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        required
+      /><br /><br />
+
+      <button type="submit">Register</button>
+    </form>
+    <br />
+    <a href="{{ url_for('employees') }}">View Employees</a>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employees List</title>
+  </head>
+  <body>
+    <h2>Employees List</h2>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>userid</th>
+          <th>Name</th>
+          <th>password</th>
+          <th>email</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for employee in employees %}
+        <tr>
+          <td>{{ employee.userid }}</td>
+          <td>{{ employee.empname }}</td>
+          <td>{{ employee.password }}</td>
+          <td>{{ employee.email }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <br />
+    <a href="{{ url_for('register') }}">Add New Employee</a>
+  </body>
+</html>
