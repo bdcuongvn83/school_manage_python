@@ -1,9 +1,19 @@
+from rq import Queue 
+from redis import Redis
 from sqlalchemy import Column, create_engine, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 from config import DATABASE_URL
+
 Base = declarative_base()
+
+
+
+# Kết nối Redis
+redis = Redis(host='localhost', port=6379, db=0)
+
+
 class Employee(Base):
     __tablename__ = 'tb_employee'
     
@@ -28,10 +38,16 @@ Session = sessionmaker(bind=engine)
 # Hàm đăng ký nhân viên
 def register_employee(name, password, email, userid):
     session = Session()
-    new_employee = Employee(empname=name, password=password, email=email, userid=userid)
-    session.add(new_employee)
-    session.commit()
-    session.close()
+    try:
+        new_employee = Employee(empname=name, password=password, email=email, userid=userid)
+        session.add(new_employee)
+        session.commit()
+    except Exception as e:
+         print(f"Error: {e}")
+         session.rollback()  # Rollback changes in case of error
+    finally:
+        session.close()  # Always close the session
+
 
 # Hàm hiển thị danh sách nhân viên
 def show_employees():

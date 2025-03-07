@@ -1,4 +1,7 @@
 # Initialize Flask application
+import subprocess
+import time
+from celery import Celery
 from flask import Flask, redirect, render_template, request, url_for
 
 from models import register_employee, show_employees
@@ -8,6 +11,8 @@ app = Flask(__name__)
 # Mảng lưu thông tin nhân viên
 employee_list = []
 
+
+    
 
 # Define a route for the home page
 @app.route("/")
@@ -36,12 +41,23 @@ def register():
     # Render trang đăng ký
     return render_template('register.html')
 
+
+# Chạy worker bằng subprocess
+def start_worker():
+    subprocess.Popen(['rq', 'worker'])
+
+@app.route('/start_worker')
+def start_worker_route():
+    start_worker()
+    return "Worker started!", 200
+
 @app.route('/employees')
 def employees():
     # Render danh sách nhân viên
     employee_list = show_employees()
 
     return render_template('employees.html', employees=employee_list)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
